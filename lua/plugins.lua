@@ -1,11 +1,4 @@
 
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
-
 local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
@@ -19,9 +12,16 @@ end
 
 local packer_bootstrap = ensure_packer()
 
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]])
+
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-  
+
 
   -- github copilot
   use 'github/copilot.vim'
@@ -41,6 +41,18 @@ return require('packer').startup(function(use)
     requires = { 'nvim-tree/nvim-web-devicons' }
   }
 
+  -- 窗口定位
+  use 'christoomey/vim-tmux-navigator'
+
+  -- 语法高亮
+  use 'nvim-treesitter/nvim-treesitter'
+  use 'p00f/nvim-ts-rainbow'
+
+  -- 代码注释
+  use 'numToStr/Comment.nvim'
+  -- 括号自动补全
+  use 'windwp/nvim-autopairs'
+
   -- 文件搜索
   use {
     'nvim-telescope/telescope.nvim',
@@ -52,25 +64,23 @@ return require('packer').startup(function(use)
 
 
   -- 代码提示
-  use 'williamboman/mason.nvim'    
+  use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
 
   use 'onsails/lspkind-nvim'
-  use 'L3MON4D3/LuaSnip'
+  use {
+    'L3MON4D3/LuaSnip',
+    run = 'make install_jsregexp'
+  }
 
   use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/cmp-vsnip'
-  use 'hrsh7th/vim-vsnip'
-
-  -- rust语言
-  use 'simrat39/rust-tools.nvim'
-
 
 
   -- Automatically set up your configuration after cloning packer.nvim

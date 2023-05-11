@@ -6,7 +6,7 @@ require("options")
 
 require('lualine').setup {
   options = {
-    theme = 'gruvbox',
+    theme = 'tokyonight',
   }
 }
 
@@ -29,9 +29,44 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 
+require("nvim-treesitter.configs").setup({
+  ensure_installed = {
+    "rust", "lua", "python", "bash", "toml", "json", "yaml", "html", "css", "javascript", "typescript", "tsx", "vue",
+    "svelte", "php", "java", "go", "dockerfile", "regex", "query", "comment", "toml", "tsx", "vue", "svelte", "php", "java",
+    "go", "dockerfile", "regex", "query", "comment"
+  },
+  highlight = {
+	enable = true,
+	additional_vim_regex_highlighting = true,
+  },
+  indent = {
+    enable = true,
+  },
+  rainbow = {
+	enable = true,
+	extended_mode = true,
+	max_file_lines = nil,
+  },
+})
+
+
+require("Comment").setup()
+require("nvim-autopairs").setup()
+
 
 require("mason").setup()
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "lua_ls", "rust_analyzer",
+  },
+})
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+require("lspconfig").lua_ls.setup({
+  capabilities = capabilities,
+})
+require("lspconfig").rust_analyzer.setup({
+  capabilities = capabilities,
+})
 
 
 local cmp = require("cmp")
@@ -62,10 +97,10 @@ cmp.setup({
   },
   sources = {
     { name = "nvim_lsp" },
+    { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
     { name = "vsnip" },
-    { name = "nvim_lua" },
   },
   formatting = {
     fields = {
@@ -75,41 +110,34 @@ cmp.setup({
     },
     format = function(entry, vim_item)
       vim_item.kind = string.format(
-	"%s %s",
-	require("lspkind").presets.default[vim_item.kind],
-	vim_item.kind
+        "%s %s",
+	    require("lspkind").presets.default[vim_item.kind],
+	    vim_item.kind
       )
       vim_item.menu = ({
-	buffer = "[Buffer]",
-	nvim_lsp = "[LSP]",
-	nvim_lua = "[Lua]",
-	path = "[Path]",
-	vsnip = "[Vsnip]",
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+	    luasnip = "[LuaSnip]",
+	    path = "[Path]",
+	    vsnip = "[VSnip]",
+	    nvim_lua = "[Lua]",
       })[entry.source.name]
       return vim_item
     end,
   },
 })
-
 cmp.setup.cmdline("/", {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = "buffer" },
+	{ name = "path" },
   },
 })
 cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = "cmdline" },
-    { name = "path" },
-  },
-})
-
-
-
-require("rust-tools").setup({
-  server = {
-    on_attach = function(client, bufnr)
-      require("mason-lspconfig").on_attach(client, bufnr)
-    end,
+	{ name = "path" },
   },
 })
 
