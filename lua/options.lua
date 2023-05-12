@@ -1,9 +1,6 @@
 local opt = vim.opt
 local keymap = vim.keymap
 
--- 主题
-vim.cmd[[colorscheme tokyonight-storm]]
-
 -- 行号
 opt.number = true
 opt.relativenumber = true
@@ -38,8 +35,6 @@ keymap.set('v', 'L', '>gv')
 -- 翻半页并居中
 keymap.set('n', '<C-u>', '<C-u>zz')
 keymap.set('n', '<C-d>', '<C-d>zz')
-
-
 
 -- 变量重命名
 keymap.set('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
