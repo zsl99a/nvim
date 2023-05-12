@@ -21,8 +21,8 @@ opt.mouse = 'a'
 opt.clipboard = 'unnamedplus'
 
 -- 默认新窗口右和下
--- opt.splitright = true
--- opt.splitbelow = true
+opt.splitright = true
+opt.splitbelow = true
 
 -- 终端颜色
 opt.termguicolors = true
@@ -39,13 +39,8 @@ keymap.set('v', 'L', '>gv')
 keymap.set('n', '<C-u>', '<C-u>zz')
 keymap.set('n', '<C-d>', '<C-d>zz')
 
--- 文件树
-vim.g.nvim_tree_ignore = {'target'}
-keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 
 
 -- 变量重命名
 keymap.set('n', '<leader>rn', ':lua vim.lsp.buf.rename()<CR>')
-
-
 
