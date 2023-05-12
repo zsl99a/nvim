@@ -68,6 +68,15 @@ return require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
   use 'neovim/nvim-lspconfig'
 
+  use 'zbirenbaum/copilot.lua'
+  use {
+    "zbirenbaum/copilot-cmp",
+	after = { "copilot.lua" },
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  }
+
   use 'onsails/lspkind-nvim'
   use {
     'L3MON4D3/LuaSnip',
@@ -81,6 +90,10 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/cmp-vsnip'
+
+  -- 类型提示
+  use 'simrat39/rust-tools.nvim'
+
 
 
   -- Automatically set up your configuration after cloning packer.nvim

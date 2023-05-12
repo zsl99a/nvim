@@ -10,7 +10,14 @@ require('lualine').setup {
   }
 }
 
-require('nvim-tree').setup()
+require('nvim-tree').setup({
+  filters = {
+	dotfiles = false,
+  },
+  git = {
+    ignore = false,
+  },
+})
 
 
 local telescope = require("telescope")
@@ -54,23 +61,35 @@ require("Comment").setup()
 require("nvim-autopairs").setup()
 
 
+local lspconfigs = {
+  "lua_ls", "rust_analyzer", "tsserver", "html", "cssls", "jsonls", "yamlls", "bashls", "vimls",
+}
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = {
-    "lua_ls", "rust_analyzer",
-  },
+  ensure_installed = lspconfigs,
 })
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-require("lspconfig").lua_ls.setup({
-  capabilities = capabilities,
-})
-require("lspconfig").rust_analyzer.setup({
-  capabilities = capabilities,
-})
+local lspconfig = require("lspconfig")
+for _, lsp in ipairs(lspconfigs) do
+  lspconfig[lsp].setup({
+	capabilities = capabilities,
+  })
+end
 
 
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
 local cmp = require("cmp")
 local luasnip = require("luasnip")
+require("lspkind").init({
+  mode = "symbol_text",
+  preset = "codicons",
+  symbol_map = {
+    Copilot = "",
+  }
+})
 cmp.setup({
   preselect = cmp.PreselectMode.None,
   window = {
@@ -96,6 +115,8 @@ cmp.setup({
     }),
   },
   sources = {
+    { name = "copilot" },
+	{ name = "nvim_lua" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "buffer" },
@@ -103,27 +124,7 @@ cmp.setup({
     { name = "vsnip" },
   },
   formatting = {
-    fields = {
-      "kind",
-      "abbr",
-      "menu",
-    },
-    format = function(entry, vim_item)
-      vim_item.kind = string.format(
-        "%s %s",
-	    require("lspkind").presets.default[vim_item.kind],
-	    vim_item.kind
-      )
-      vim_item.menu = ({
-        buffer = "[Buffer]",
-        nvim_lsp = "[LSP]",
-	    luasnip = "[LuaSnip]",
-	    path = "[Path]",
-	    vsnip = "[VSnip]",
-	    nvim_lua = "[Lua]",
-      })[entry.source.name]
-      return vim_item
-    end,
+	format = require("lspkind").cmp_format()
   },
 })
 cmp.setup.cmdline("/", {
@@ -140,5 +141,6 @@ cmp.setup.cmdline(":", {
 	{ name = "path" },
   },
 })
+require("rust-tools").setup()
 
 
