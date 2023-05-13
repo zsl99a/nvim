@@ -29,7 +29,7 @@ cmp.setup({
     ["<C-j>"] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-10),
     ["<C-f>"] = cmp.mapping.scroll_docs(10),
-    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-.>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
@@ -38,7 +38,7 @@ cmp.setup({
   },
   sources = {
     { name = "copilot" },
-	{ name = "nvim_lua" },
+    { name = "nvim_lua" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "buffer" },
@@ -46,7 +46,7 @@ cmp.setup({
     { name = "vsnip" },
   },
   formatting = {
-	format = require("lspkind").cmp_format()
+    format = require("lspkind").cmp_format()
   },
 })
 
@@ -54,16 +54,15 @@ cmp.setup.cmdline("/", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = "buffer" },
-	{ name = "path" },
+    { name = "path" },
   },
 })
 cmp.setup.cmdline(":", {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
+    { name = "copilot" },
     { name = "cmdline" },
-	{ name = "path" },
+    { name = "path" },
   },
 })
-
-require("rust-tools").setup()
 
