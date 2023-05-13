@@ -9,6 +9,7 @@ config.font = wezterm.font("Hack Nerd Font")
 config.colors = {
 	background = "#24283b",
 }
+config.front_end = "OpenGL"
 
 
 return config
