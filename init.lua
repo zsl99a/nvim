@@ -6,4 +6,4 @@ require("plugins.telescope")
 require("plugins.nvim-tree")
 require("plugins.mason")
 require("plugins.cmp")
-
+require("plugins.formatter")

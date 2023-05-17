@@ -66,3 +66,4 @@ cmp.setup.cmdline(":", {
   },
 })
 
+require("rust-tools").setup()

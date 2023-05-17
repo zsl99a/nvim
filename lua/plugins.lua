@@ -47,6 +47,7 @@ return require('packer').startup(function(use)
   -- 语法高亮
   use 'nvim-treesitter/nvim-treesitter'
   use 'p00f/nvim-ts-rainbow'
+  use 'RRethy/vim-illuminate'
 
   -- 代码注释
   use 'numToStr/Comment.nvim'
@@ -59,9 +60,8 @@ return require('packer').startup(function(use)
     requires = { 'nvim-lua/plenary.nvim' }
   }
 
-  -- 终端
-  use 'voldikss/vim-floaterm'
-
+  -- 代码格式化
+  use 'lukas-reineke/lsp-format.nvim'
 
   -- 代码提示
   use 'williamboman/mason.nvim'
